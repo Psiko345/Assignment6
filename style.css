@@ -1,0 +1,12 @@
+header {
+  text-align: center;
+  background-color: darkgrey;
+}
+
+#searchBtn {
+  background-color: blue;
+}
+
+#currentCityName {
+  padding: 10px;
+}

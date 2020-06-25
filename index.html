@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
     <link rel="stylesheet" href="style.css">
     <title>Weather Dashboard</title>
 </head>
@@ -14,20 +15,73 @@
 </header>
 
 <body>
-    <article>
-        <aside>
-            <h2>Search for a city:</h2>
+    <article class="container">
+        <aside id="citySearch">
+            <h4>Search for a city:</h4>
             <div class="input-group md-form form-sm form-1 pl-0">
                 <div class="input-group-prepend">
-                    <span class="input-group-text cyan lighten-2" id="basic-text1"><i class="fas fa-search text-white"
-                            aria-hidden="true"></i></span>
+                    <button class="input-group-text" id="searchBtn"><i class="fas fa-search text-white"
+                            aria-hidden="true"></i></button>
                 </div>
                 <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
             </div>
+            <div class="card" id="previousSearches">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+            </div>
         </aside>
-
-
+        <main id="allWeatherDetails">
+            <section id="currentCityWeather">
+                <div class="card">
+                    <div class="card-title">
+                        <h2 id="currentCityName">
+                            Current City (Date)
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <ul id="weatherDetails">
+                            <li>Temperature</li>
+                            <li>Humidity</li>
+                            <li>Wind Speed</li>
+                            <li>UV Index</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="5DayForcast">
+                <div class="card-deck">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </article>
+    <script src="https://kit.fontawesome.com/963ab9db94.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 
