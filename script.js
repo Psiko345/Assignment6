@@ -1,5 +1,5 @@
 //link weather api
-let apiKey = "9b35e8a2fe8231a262c8c2468f7793c7";
+const apiKey = "9b35e8a2fe8231a262c8c2468f7793c7";
 
 function getWeather(cityName) {
   let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
@@ -9,11 +9,22 @@ function getWeather(cityName) {
     method: "GET",
   }).then(function (response) {
     console.log(response);
-    return response;
+    $("#currentCityName").text(cityName);
+    $("#temp").text("Temperature: " + response.main.temp);
+    $("#humidity").text("Humidity: " + response.main.humidity + "%");
+    $("#wind").text("Wind Speed: " + response.wind.speed + "km/h");
+    //$("#uv").text();
   });
+
+  handleCurrentCityNameChange();
 }
+
+function getUVIndex(cityName) {
+  let queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat={lat}&lon={lon}`;
+}
+
 window.onload = function () {
-  getWeather("sydney");
+  getWeather("Sydney");
 };
 
 //click listener on search button
@@ -21,7 +32,6 @@ $("#searchBtn").on("click", function () {
   console.log($("#citySearchBox").val());
   let cityName = $("#citySearchBox").val();
   getWeather(cityName);
-  handleCurrentCityNameChange();
 });
 //buttonpress listener on search bar
 $("#citySearchBox").on("keypress", function (e) {
@@ -29,7 +39,6 @@ $("#citySearchBox").on("keypress", function (e) {
     console.log($("#citySearchBox").val());
     let cityName = $("#citySearchBox").val();
     getWeather(cityName);
-    handleCurrentCityNameChange();
   }
 });
 //pull text from search bar - place in getWeather
@@ -42,17 +51,14 @@ function handleCurrentCityNameChange() {
   console.log($("#currentCityName").val());
   return;
 }
-//send weather to HTML
-
-// Temperature (with celcius convertion)
-
-// Humidity
-
-// Wind Speed
+//send weather to HTML -- just do it in 'getweather'
 
 // Generate 5-day forcast
+
 //create HTML with jquery
+
 //ajax call the forecast using same city name
+
 //send data
 
 //save seach to localstorage, prepend last name to list of preivous
