@@ -23,10 +23,11 @@
                     <button class="input-group-text" id="searchBtn"><i class="fas fa-search text-white"
                             aria-hidden="true"></i></button>
                 </div>
-                <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
+                <input class="form-control my-0 py-1" type="text" placeholder="Search a City" aria-label="Search"
+                    id="citySearchBox">
             </div>
-            <div class="card" id="previousSearches">
-                <ul class="list-group list-group-flush">
+            <div class="card">
+                <ul class="list-group list-group-flush" id="previousSearches">
                     <li class="list-group-item">Cras justo odio</li>
                     <li class="list-group-item">Dapibus ac facilisis in</li>
                     <li class="list-group-item">Vestibulum at eros</li>
@@ -81,6 +82,7 @@
             </section>
         </main>
     </article>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://kit.fontawesome.com/963ab9db94.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
