@@ -9,7 +9,9 @@ function getWeather(cityName) {
     method: "GET",
   }).then(function (response) {
     console.log(response);
-    $("#temp").text("Temperature: " + (response.main.temp - 272.15));
+    $("#temp").text(
+      "Temperature: " + temperatureForDisplay(response.main.temp) + "&#8451;"
+    );
     $("#humidity").text("Humidity: " + response.main.humidity + "%");
     $("#wind").text("Wind Speed: " + response.wind.speed + "km/h");
 
@@ -18,6 +20,10 @@ function getWeather(cityName) {
 
     getUVIndex(response.coord.lat, response.coord.lon);
   });
+}
+
+function temperatureForDisplay(temp) {
+  return Math.trunc(temp - 272.15);
 }
 
 function getUVIndex(lat, lon) {
@@ -40,16 +46,78 @@ function getForecast(cityId) {
     method: "GET",
   }).then(function (response) {
     console.log(response);
+    let fiveDays = selectDailyForcast(response.list);
+    let parent = $("#forcastTiles");
+    parent.empty();
+    fiveDays.forEach(function (element) {
+      generateTile(parent, element);
+    });
   });
 }
 
+function selectDailyForcast(forecasts) {
+  dailyForecasts = [];
+  forecasts.forEach(function (element) {
+    let when = moment(element.dt_txt);
+    if (when.hour() == 12) {
+      dailyForecasts.push(element);
+    }
+  });
+  return dailyForecasts;
+}
+
+function generateTile(parent, oneDayForecast) {
+  parent.append(
+    $(`<div class="card forecastTile">
+    <div class="card-body">
+        <h5 class="card-title">${oneDayForecast.dt_txt}</h5>
+        <img> </img>
+        <p>Temp: ${temperatureForDisplay(oneDayForecast.main.temp)} &#8451;</p>
+        <p>Humidity: ${oneDayForecast.main.humidity}% </p>
+    </div>
+</div>`)
+  );
+}
+
 window.onload = function () {
-  handleCityChange("Sydney");
+  let lastCity = localStorage.getItem("lastCity");
+  if (lastCity == null) {
+    lastCity = "Sydney";
+  }
+  handleCityChange(lastCity);
+  restorePreviousCities();
 };
+
+function restorePreviousCities() {
+  let previousCitiesAsString = localStorage.getItem("previousCities");
+  let previousCities = JSON.parse(previousCitiesAsString);
+  let parent = $("#previousSearches");
+  if (previousCitiesAsString != null) {
+    parent.empty();
+    previousCities.forEach((element) => {
+      parent.append($(`<li class="list-group-item">${element}</li>`));
+    });
+  }
+}
+
+function saveToPreviousCities(newCity) {
+  let previousCitiesAsString = localStorage.getItem("previousCities");
+  let previousCities = JSON.parse(previousCitiesAsString);
+  if (previousCities == null) {
+    previousCities = [];
+  }
+  previousCities.push(newCity);
+  previousCities = new Set(previousCities);
+  previousCities = Array.from(previousCities);
+  localStorage.setItem("previousCities", JSON.stringify(previousCities));
+}
 
 function handleCityChange(newCity) {
   $("#currentCityName").text(newCity);
   getWeather(newCity);
+  saveToPreviousCities(newCity);
+  restorePreviousCities();
+  localStorage.setItem("lastCity", newCity);
 }
 
 //click listener on search button
@@ -66,6 +134,12 @@ $("#citySearchBox").on("keypress", function (e) {
     let cityName = $("#citySearchBox").val();
     handleCityChange(cityName);
   }
+});
+
+$("#previousSearches").on("click", function (e) {
+  console.log("CLICKED:");
+  console.log(e);
+  handleCityChange(e.target.textContent);
 });
 
 //pull text from search bar - place in getWeather
