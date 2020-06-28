@@ -9,48 +9,68 @@ function getWeather(cityName) {
     method: "GET",
   }).then(function (response) {
     console.log(response);
-    $("#currentCityName").text(cityName);
-    $("#temp").text("Temperature: " + response.main.temp);
+    $("#temp").text("Temperature: " + (response.main.temp - 272.15));
     $("#humidity").text("Humidity: " + response.main.humidity + "%");
     $("#wind").text("Wind Speed: " + response.wind.speed + "km/h");
-    //$("#uv").text();
-  });
 
-  handleCurrentCityNameChange();
+    let cityId = response.id;
+    getForecast(cityId);
+
+    getUVIndex(response.coord.lat, response.coord.lon);
+  });
 }
 
-function getUVIndex(cityName) {
-  let queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat={lat}&lon={lon}`;
+function getUVIndex(lat, lon) {
+  let queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`;
+
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    console.log(response);
+    $("#uv").text("UV Index: " + response.value);
+  });
+}
+
+function getForecast(cityId) {
+  let queryURL = `http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${apiKey}`;
+
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(function (response) {
+    console.log(response);
+  });
 }
 
 window.onload = function () {
-  getWeather("Sydney");
+  handleCityChange("Sydney");
 };
+
+function handleCityChange(newCity) {
+  $("#currentCityName").text(newCity);
+  getWeather(newCity);
+}
 
 //click listener on search button
 $("#searchBtn").on("click", function () {
   console.log($("#citySearchBox").val());
   let cityName = $("#citySearchBox").val();
-  getWeather(cityName);
+  handleCityChange(cityName);
 });
+
 //buttonpress listener on search bar
 $("#citySearchBox").on("keypress", function (e) {
   if (e.which == 13) {
     console.log($("#citySearchBox").val());
     let cityName = $("#citySearchBox").val();
-    getWeather(cityName);
+    handleCityChange(cityName);
   }
 });
+
 //pull text from search bar - place in getWeather
 /* let cityName = $("#citySearchBox").val(); getWeather(cityName);*/
 
-//send cityName to proper html ID and append
-function handleCurrentCityNameChange() {
-  let cityName = $("#citySearchBox").val();
-  $("#currentCityName").text(cityName);
-  console.log($("#currentCityName").val());
-  return;
-}
 //send weather to HTML -- just do it in 'getweather'
 
 // Generate 5-day forcast

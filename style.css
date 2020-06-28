@@ -10,3 +10,8 @@ header {
 #currentCityName {
   padding: 10px;
 }
+
+.forecastTile {
+  background-color: rgb(83, 136, 248);
+  color: white;
+}
