@@ -10,14 +10,17 @@ function getWeather(cityName) {
   }).then(function (response) {
     console.log(response);
     $("#temp").text(
-      "Temperature: " + temperatureForDisplay(response.main.temp) + "&#8451;"
+      "Temperature: " + temperatureForDisplay(response.main.temp) + " °C"
     );
     $("#humidity").text("Humidity: " + response.main.humidity + "%");
     $("#wind").text("Wind Speed: " + response.wind.speed + "km/h");
-
+    $("#currentCityWeatherIcon").attr(
+      "src",
+      `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
+    );
     let cityId = response.id;
-    getForecast(cityId);
 
+    getForecast(cityId);
     getUVIndex(response.coord.lat, response.coord.lon);
   });
 }
@@ -71,7 +74,9 @@ function generateTile(parent, oneDayForecast) {
     $(`<div class="card forecastTile">
     <div class="card-body">
         <h5 class="card-title">${oneDayForecast.dt_txt}</h5>
-        <img> </img>
+        <img src="http://openweathermap.org/img/wn/${
+          oneDayForecast.weather[0].icon
+        }@2x.png"></img>
         <p>Temp: ${temperatureForDisplay(oneDayForecast.main.temp)} &#8451;</p>
         <p>Humidity: ${oneDayForecast.main.humidity}% </p>
     </div>
@@ -113,7 +118,9 @@ function saveToPreviousCities(newCity) {
 }
 
 function handleCityChange(newCity) {
-  $("#currentCityName").text(newCity);
+  $("#currentCityName").text(
+    newCity + " (" + (moment().format("YYYY MM DD") + ")")
+  );
   getWeather(newCity);
   saveToPreviousCities(newCity);
   restorePreviousCities();
