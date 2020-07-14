@@ -30,7 +30,7 @@ function temperatureForDisplay(temp) {
 }
 
 function getUVIndex(lat, lon) {
-  let queryURL = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`;
+  let queryURL = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`;
 
   $.ajax({
     url: queryURL,
@@ -74,7 +74,7 @@ function generateTile(parent, oneDayForecast) {
     $(`<div class="card forecastTile">
     <div class="card-body">
         <h5 class="card-title">${oneDayForecast.dt_txt}</h5>
-        <img src="http://openweathermap.org/img/wn/${
+        <img src="https://openweathermap.org/img/wn/${
           oneDayForecast.weather[0].icon
         }@2x.png"></img>
         <p>Temp: ${temperatureForDisplay(oneDayForecast.main.temp)} &#8451;</p>
