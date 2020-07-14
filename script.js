@@ -16,7 +16,7 @@ function getWeather(cityName) {
     $("#wind").text("Wind Speed: " + response.wind.speed + "km/h");
     $("#currentCityWeatherIcon").attr(
       "src",
-      `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
+      `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
     );
     let cityId = response.id;
 
@@ -42,7 +42,7 @@ function getUVIndex(lat, lon) {
 }
 
 function getForecast(cityId) {
-  let queryURL = `http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${apiKey}`;
+  let queryURL = `https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${apiKey}`;
 
   $.ajax({
     url: queryURL,
